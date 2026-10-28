@@ -20,7 +20,7 @@ Outputs in `output/` (committed): `cleaned_readings`, `daily_summary` (Parquet a
 
 ## Data problems and how each is handled
 
-I checked the files for missing, duplicated and impossible readings and **found none**: all 15 turbines have all 744 hours of March 2022, with no blanks, duplicates or out-of-range values. The pipeline still has a rule for each problem, each rule is tested with a planted bad row, and the quality report shows every count (all zero here).
+The checks are in [`notebooks/exploration.ipynb`](notebooks/exploration.ipynb), the audit I ran before writing the pipeline (`uv run --group notebook jupyter lab notebooks/exploration.ipynb`). I checked the files for missing, duplicated and impossible readings and **found none**: all 15 turbines have all 744 hours of March 2022, with no blanks, duplicates or out-of-range values. The pipeline still has a rule for each problem, each rule is tested with a planted bad row, and the quality report shows every count (all zero here).
 
 | Problem | Action | Why |
 | --- | --- | --- |
