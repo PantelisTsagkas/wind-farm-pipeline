@@ -104,7 +104,7 @@ The method follows the brief. For each day, take the 15 daily averages, compute 
 
 Turbines 2 and 4 were flagged on three separate days each. Turbines 3, 9, 11, 12 and 15 were flagged twice. No turbine was flagged on two days in a row.
 
-**How I'd read this:** 20 flags out of 465 turbine-days is about 4.3%. That's close to the roughly 4.5% a 2 SD rule flags in normally distributed data even when nothing is wrong. Over the whole month every turbine averages between 2.95 and 3.05 MW. So I don't see a turbine that's consistently underperforming. Most of these flags are likely normal day-to-day variation. Turbines 2 and 4, each flagged low on three days, are the ones I'd ask the operations team to look at first.
+**How I'd read this:** 20 flags out of 465 turbine-days is about 4.3%. That's close to the roughly 4.5% a 2 SD rule flags in normally distributed data even when nothing is wrong. Over the whole month every turbine averages between 2.946 MW (turbine 4) and 3.051 MW (turbine 12). So I don't see a turbine that's consistently underperforming. Most of these flags are likely normal day-to-day variation. Turbines 2 and 4, each flagged low on three days, are the ones I'd ask the operations team to look at first.
 
 ## Assumptions
 
@@ -136,5 +136,5 @@ src/wind_farm_pipeline/
     summarise.py             step 3
     anomalies.py             step 4
     main.py                  command-line entry point, step 5
-tests/                       pytest, one file per step plus an end-to-end run
+tests/                       pytest: clean, summarise, anomalies, plus load and end-to-end in test_pipeline.py
 ```
