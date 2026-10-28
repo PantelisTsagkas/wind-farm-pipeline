@@ -1,0 +1,20 @@
+{
+  "rows_loaded": 11160,
+  "dropped_bad_timestamp": 0,
+  "dropped_unknown_turbine": 0,
+  "missing_wind_speed": 0,
+  "missing_wind_direction": 0,
+  "missing_power_output": 0,
+  "dropped_exact_duplicates": 0,
+  "dropped_conflicting_duplicates": 0,
+  "out_of_range_power_output": 0,
+  "out_of_range_wind_speed": 0,
+  "out_of_range_wind_direction": 0,
+  "flagged_power_wind_mismatch": 0,
+  "rows_cleaned": 11160,
+  "rows_with_any_flag": 0,
+  "expected_hourly_readings": 11160,
+  "missing_hourly_readings": 0,
+  "wind_power_correlation": -0.0025,
+  "anomalies_flagged": 20
+}
