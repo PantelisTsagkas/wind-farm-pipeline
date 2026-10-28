@@ -68,6 +68,17 @@ def test_conflicting_duplicate_keeps_first_and_flags_it():
     assert report["dropped_conflicting_duplicates"] == 1
 
 
+@pytest.mark.parametrize("bad_power", ["-1.0", "99", ""])
+def test_conflicting_duplicate_prefers_the_valid_copy(bad_power):
+    # The broken copy comes first in file order, but the good one must win.
+    broken = ["2022-03-01 00:00:00", "1", "10.0", "180", bad_power]
+    cleaned, report = clean(make_raw(broken, GOOD))
+    assert len(cleaned) == 1
+    assert cleaned.loc[0, "power_output"] == 3.0
+    assert cleaned.loc[0, "flag_duplicate_conflict"]
+    assert report["dropped_conflicting_duplicates"] == 1
+
+
 @pytest.mark.parametrize(
     ("column_index", "value", "column"),
     [

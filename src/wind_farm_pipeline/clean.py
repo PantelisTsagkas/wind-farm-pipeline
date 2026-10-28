@@ -44,9 +44,11 @@ def clean(raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
 
     df = _parse_keys(df, report)
     df = _parse_numbers(df, report)
+    # Range check runs before de-duplication, so the duplicate step can tell a
+    # good copy of a reading from a broken one.
+    df = _null_out_of_range(df, report)
     df = _drop_exact_duplicates(df, report)
     df = _resolve_conflicting_duplicates(df, report)
-    df = _null_out_of_range(df, report)
     df = _flag_power_wind_mismatch(df, report)
 
     df = df.sort_values(["turbine_id", "timestamp"]).reset_index(drop=True)
@@ -102,9 +104,15 @@ def _drop_exact_duplicates(df: pd.DataFrame, report: dict) -> pd.DataFrame:
 def _resolve_conflicting_duplicates(df: pd.DataFrame, report: dict) -> pd.DataFrame:
     """Keep one reading per turbine per hour when two readings disagree.
 
-    There is no way to know which value is true, so the first one in file order
-    is kept and flagged. Averaging would invent a value no sensor recorded.
+    The copy with the most usable measurements wins, so a missing or impossible
+    value never beats a real one. Between equally complete copies there is no
+    way to know which is true, so the first in file order is kept and flagged.
+    Averaging would invent a value no sensor recorded.
     """
+    # A stable sort keeps file order among copies with the same valid count.
+    valid_count = df[NUMERIC_COLUMNS].notna().sum(axis=1)
+    df = df.loc[valid_count.sort_values(ascending=False, kind="stable").index]
+
     key = ["timestamp", "turbine_id"]
     has_conflict = df.duplicated(subset=key, keep=False)
     is_extra = df.duplicated(subset=key, keep="first")
